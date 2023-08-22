@@ -1,9 +1,9 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const dataBase = require('./config/database')
-const userRoutes = require('./src/routes/users')
+const userRoutes = require('./routes/users')
 const bodyParser = require('body-parser')
-const authRoutes = require('./src/routes/auth')
+const authRoutes = require('./routes/auth')
 const app = express()
 const port = process.env.PORT || 3000
 dotenv.config()

@@ -6,6 +6,7 @@ const CryptoJS = require('crypto-js')
 exports.updateUser = async (req, res, next) => {
     try {
         const userData = req.body;
+        //if password is set in request body then encrypt it
         if (userData.password) {
             userData.password = CryptoJS.AES.encrypt(userData.password, process.env.PASS_SECRET).toString()
         }
@@ -13,7 +14,7 @@ exports.updateUser = async (req, res, next) => {
         return res.status(200).json({
             success: true,
             data: updatedUser,
-            message: "Successfully updated user data"
+            message: "Successfully updated user data"   
         });
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message })
