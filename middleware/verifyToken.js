@@ -45,6 +45,16 @@ exports.authenticate = (req, res, next) => {
         }
     })
 }
+
+exports.authenticateAdmin = (req, res, next) => {
+    this.verifyToken(req, res, () => {
+        if (req.user.isAdmin) {
+            next();
+        } else {
+            return res.status(403).json({ success: false, message: "You are not authorized" })
+        }
+    })
+}
 // const jwt = require('jsonwebtoken');
 // const SECRET_KEY = process.env.SECRET_KEY;
 

@@ -4,16 +4,11 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 
+//sing up
 exports.register = async (req, res) => {
     const userData = req.body;
-    const newUser = new User({
-        username: userData.username,
-        name: userData.name,
-        email: userData.email,
-        //hashing the password using crypto-js
-        password: CryptoJS.AES.encrypt(userData.password, process.env.PASS_SECRET).toString(),
-    });
-
+    userData.password = CryptoJS.AES.encrypt(userData.password, process.env.PASS_SECRET).toString();
+    const newUser = new User(userData);
     try {
         //saving user data to the db
         const user = await newUser.save();
@@ -30,6 +25,7 @@ exports.register = async (req, res) => {
     }
 }
 
+//login
 exports.login = async (req, res, next) => {
     try {
         const userData = req.body;
@@ -65,7 +61,7 @@ exports.login = async (req, res, next) => {
         //returning logged user data
         return res.status(200).json({
             "sucess": true,
-            "data": {...others,accessToken},
+            "data": { ...others, accessToken },
             "message": "Login Successfull"
         });
     } catch (error) {
